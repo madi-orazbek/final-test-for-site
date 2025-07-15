@@ -24,6 +24,9 @@ router.get('/:courseId/assignments/new',
   assignmentController.newAssignment
 );
 
+router.get('/:id/modules/new', ensureTeacher, moduleController.newModuleForm);
+router.post('/:id/modules', ensureTeacher, moduleController.createModule);
+
 router.post('/:courseId/assignments', 
   ensureAuthenticated, 
   ensureTeacher, 
