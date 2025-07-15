@@ -1,0 +1,34 @@
+<!-- views/courses/show.ejs -->
+<div class="container mt-4">
+  <!-- Заголовок и описание курса -->
+  <h1><%= course.title %></h1>
+  <p class="lead"><%= course.description %></p>
+  
+  <!-- Кнопки управления для преподавателя -->
+  <% if (isInstructor) { %>
+    <div class="mb-4">
+      <a href="/courses/<%= course._id %>/edit" class="btn btn-outline-primary">
+        <i class="bi bi-pencil"></i> Редактировать курс
+      </a>
+      <a href="/courses/<%= course._id %>/modules/new" class="btn btn-primary ms-2">
+        <i class="bi bi-plus-circle"></i> Добавить блок
+      </a>
+    </div>
+  <% } %>
+  
+  <!-- Блоки курса -->
+  <h2>Блоки курса</h2>
+  <div class="list-group mt-3">
+    <% modules.forEach(module => { %>
+      <a href="/courses/<%= course._id %>/modules/<%= module._id %>" 
+         class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1"><%= module.title %></h5>
+          <small>Блок <%= module.order + 1 %></small>
+        </div>
+      </a>
+    <% }) %>
+  </div>
+  
+  <!-- ... остальной код ... -->
+</div>
