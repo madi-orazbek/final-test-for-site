@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const courseController = require('../controllers/courseController');
+const moduleController = require('../controllers/moduleController');
 const assignmentController = require('../controllers/assignmentController');
 const { ensureAuthenticated, ensureTeacher } = require('../middleware/auth');
 
