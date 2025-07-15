@@ -1,0 +1,48 @@
+<%- include('../partials/header', { title: module.title }) %>
+
+<div class="container mt-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/courses">Курсы</a></li>
+      <li class="breadcrumb-item"><a href="/courses/<%= module.course._id %>"><%= module.course.title %></a></li>
+      <li class="breadcrumb-item active" aria-current="page"><%= module.title %></li>
+    </ol>
+  </nav>
+  
+  <div class="row">
+    <div class="col-md-8">
+      <h1><%= module.title %></h1>
+      <p class="lead">Блок курса "<%= module.course.title %>"</p>
+      
+      <h2 class="mt-5">Уроки</h2>
+      <div class="list-group mt-3">
+        <% lessons.forEach(lesson => { %>
+          <a href="/lessons/<%= lesson._id %>" 
+             class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1"><%= lesson.title %></h5>
+              <small>Урок <%= lesson.order + 1 %></small>
+            </div>
+          </a>
+        <% }) %>
+      </div>
+    </div>
+    
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Прогресс</h5>
+          <div class="progress mb-3">
+            <div class="progress-bar" role="progressbar" style="width: 25%;">25%</div>
+          </div>
+          
+          <div class="d-grid gap-2">
+            <button class="btn btn-outline-primary">Начать следующий урок</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
