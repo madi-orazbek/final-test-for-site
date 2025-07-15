@@ -14,6 +14,18 @@ exports.createCourse = async (req, res) => {
         });
         await course.save();
         res.redirect(`/courses/${course._id}`);
+        let isInstructor = false;
+        if (req.user) {
+          isInstructor = course.createdBy._id.toString() === req.user._id.toString();
+        }
+    
+        res.render('courses/show', { 
+        course, 
+        modules,
+        isEnrolled,
+        isInstructor, // Важная переменная
+        user: req.user
+    });
     } catch (error) {
         console.error(error);
         req.flash('error', 'Ошибка при создании курса');
