@@ -109,6 +109,7 @@ app.use('/courses', require('./routes/courses'));
 app.use('/assignments', require('./routes/assignments'));
 app.use('/forum', require('./routes/forum'));
 app.use('/admin', require('./routes/admin'));
+app.use('/lessons', require('./routes/lessons'));
 
 // Обработка 404
 app.use((req, res) => {
