@@ -32,5 +32,10 @@ router.post('/:courseId/assignments',
   ensureTeacher, 
   assignmentController.createAssignment
 );
+// Редактирование курса
+router.get('/:id/edit', ensureTeacher, courseController.editCourseForm);
+router.put('/:id', ensureTeacher, courseController.updateCourse);
 
+// Удаление курса
+router.delete('/:id', ensureTeacher, courseController.deleteCourse);
 module.exports = router;
