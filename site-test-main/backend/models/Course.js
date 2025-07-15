@@ -28,5 +28,5 @@ courseSchema.virtual('lessonCount', {
   foreignField: 'module.course',
   count: true
 });
-
+modules: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Module' }],
 module.exports = mongoose.model('Course', courseSchema);
