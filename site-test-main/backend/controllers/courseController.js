@@ -221,3 +221,18 @@ exports.deleteCourse = async (req, res) => {
         res.redirect(`/courses/${req.params.id}`);
     }
 };
+exports.ensureCourseOwner = async (req, res, next) => {
+  try {
+    const course = await Course.findById(req.params.id);
+    if (!course) return res.status(404).send('Курс не найден');
+    
+    if (req.user.role === 'admin') return next();
+    if (course.createdBy.equals(req.user._id)) return next();
+    
+    req.flash('error', 'У вас нет прав для редактирования этого курса');
+    res.redirect('/courses');
+  } catch (error) {
+    console.error(error);
+    res.redirect('/courses');
+  }
+};
