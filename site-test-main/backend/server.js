@@ -47,6 +47,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
+app.locals.formatGrade = (grade) => {
+  return `${grade} класс`;
+};
+
 // Сессии
 app.use(session({
   secret: process.env.SESSION_SECRET,
