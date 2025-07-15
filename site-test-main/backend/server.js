@@ -39,6 +39,15 @@ app.use(cors({
   }
 }));
 
+app.locals.extractYouTubeId = (url) => {
+  if (!url) return '';
+
+    // Поддерживаем различные форматы YouTube ссылок
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  
+  return (match && match[2].length === 11) ? match[2] : '';
+};
 // Конфигурация приложения
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views')); // Явно указываем путь к шаблонам
