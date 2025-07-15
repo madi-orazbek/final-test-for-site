@@ -20,6 +20,12 @@ console.log('========================');
 // Подключение к БД
 require('./config/db')();
 
+// После подключения к БД
+if (process.env.NODE_ENV !== 'production') {
+  const seedMath5 = require('./seed/math5');
+  seedMath5();
+}
+
 // Настройка доверия к прокси
 app.set('trust proxy', 1);
 
