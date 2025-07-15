@@ -27,7 +27,33 @@
         <% }) %>
       </div>
     </div>
-    
+
+    <!-- В modules/show.ejs -->
+    <div class="accordion" id="lessonsAccordion">
+      <% lessons.forEach((lesson, index) => { %>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="heading<%= index %>">
+            <button class="accordion-button collapsed" type="button" 
+                    data-bs-toggle="collapse" 
+                    data-bs-target="#collapse<%= index %>">
+              Урок <%= index + 1 %>: <%= lesson.title %>
+            </button>
+          </h2>
+          <div id="collapse<%= index %>" class="accordion-collapse collapse" 
+               data-bs-parent="#lessonsAccordion">
+            <div class="accordion-body">
+              <%- lesson.content || 'Контент скоро появится...' %>
+              <div class="mt-3">
+                <a href="/lessons/<%= lesson._id %>" class="btn btn-sm btn-primary">
+                  Подробнее
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+
     <div class="col-md-4">
       <div class="card">
         <div class="card-body">
