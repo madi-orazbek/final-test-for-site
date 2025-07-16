@@ -62,6 +62,7 @@ exports.profile = async (req, res) => {
     
     res.render('profile', { 
       user: req.user, 
+      username: req.username,
       courses 
     });
   } catch (error) {
