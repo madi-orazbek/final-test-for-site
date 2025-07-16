@@ -7,6 +7,7 @@ const courseSchema = new mongoose.Schema({
   grade: { type: Number, required: true, default: 5 }, // Добавлено поле класса
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   students: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  modules: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Module' }],
   createdAt: { type: Date, default: Date.now }
 }, {
   toJSON: { virtuals: true },
@@ -28,5 +29,5 @@ courseSchema.virtual('lessonCount', {
   foreignField: 'module.course',
   count: true
 });
-modules: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Module' }],
+
 module.exports = mongoose.model('Course', courseSchema);
