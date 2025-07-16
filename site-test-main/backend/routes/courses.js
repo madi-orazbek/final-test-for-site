@@ -10,46 +10,93 @@ const { ensureAuthenticated, ensureTeacher, ensureCourseOwner } = require('../mi
 router.get('/', courseController.getAllCourses);
 
 // Создание курса
-router.get('/new', ensureTeacher, courseController.newCourse);
-router.post('/', ensureTeacher, courseController.createCourse);
+router.get('/new', 
+  ensureAuthenticated,
+  ensureTeacher, 
+  courseController.newCourse
+);
 
-// Детали курса
-router.get('/:id', courseController.getCourseDetails);
-router.get('/:id', ensureAuthenticated, courseController.getCourseDetails);
+router.post('/', 
+  ensureAuthenticated,
+  ensureTeacher, 
+  courseController.createCourse
+);
+
+// Детали курса (ИСПРАВЛЕНО: только один роут)
+router.get('/:id', 
+  ensureAuthenticated, 
+  courseController.getCourseDetails
+);
 
 // Запись на курс
-router.post('/:id/enroll', ensureAuthenticated, courseController.enrollInCourse);
+router.post('/:id/enroll', 
+  ensureAuthenticated, 
+  courseController.enrollInCourse
+);
 
 // Редактирование курса
-router.get('/:id/edit', ensureTeacher, ensureCourseOwner, courseController.editCourseForm);
-router.put('/:id', ensureTeacher, ensureCourseOwner, courseController.updateCourse);
+router.get('/:id/edit', 
+  ensureAuthenticated,
+  ensureTeacher, 
+  ensureCourseOwner, 
+  courseController.editCourseForm
+);
+
+router.put('/:id',
+  ensureAuthenticated,
+  ensureTeacher, 
+  ensureCourseOwner,
+  courseController.updateCourse
+);
 
 // Удаление курса
-router.delete('/:id', ensureTeacher, ensureCourseOwner, courseController.deleteCourse);
+router.delete('/:id',
+  ensureAuthenticated,
+  ensureTeacher, 
+  ensureCourseOwner,
+  courseController.deleteCourse
+);
 
 // Модули курса
-router.get('/:id/modules/new', ensureTeacher, ensureCourseOwner, moduleController.newModuleForm);
-router.post('/:id/modules', ensureTeacher, ensureCourseOwner, moduleController.createModule);
+router.get('/:id/modules/new', 
+  ensureAuthenticated,
+  ensureTeacher, 
+  ensureCourseOwner, 
+  moduleController.newModuleForm
+);
+
+router.post('/:id/modules', 
+  ensureAuthenticated,
+  ensureTeacher, 
+  ensureCourseOwner, 
+  moduleController.createModule
+);
 
 // Уроки курса
 router.get('/:id/modules/:moduleId/lessons/new', 
+  ensureAuthenticated,
   ensureTeacher, 
   ensureCourseOwner, 
   lessonController.newLessonForm
 );
+
 router.post('/:id/modules/:moduleId/lessons', 
+  ensureAuthenticated,
   ensureTeacher, 
   ensureCourseOwner, 
   lessonController.createLesson
 );
 
-// Задания курса (если нужно оставить)
+// Задания курса
 router.get('/:courseId/assignments/new', 
+  ensureAuthenticated,
   ensureTeacher, 
   ensureCourseOwner, 
   assignmentController.newAssignment
 );
+
 router.post('/:courseId/assignments', 
+  ensureAuthenticated,
   ensureTeacher, 
   ensureCourseOwner, 
   assignmentController.createAssignment
