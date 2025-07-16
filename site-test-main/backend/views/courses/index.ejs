@@ -17,7 +17,7 @@
                     <div class="card h-100">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title"><%= course.title %></h5>
-                            <p class="card-text text-muted">Преподаватель: <%= course.createdBy.email %></p>
+                            <p class="card-text text-muted">Преподаватель: <%= course.createdBy.username %></p>
                             <p class="card-text flex-grow-1"><%= course.description.substring(0, 100) %>...</p>
                             <a href="/courses/<%= course._id %>" class="btn btn-outline-primary mt-auto">Подробнее</a>
                         </div>
