@@ -9,23 +9,14 @@ exports.createCourse = async (req, res) => {
         const course = new Course({
             title,
             description,
-            grade: grade || 5, // По умолчанию 5 класс
+            grade: grade || 5,
             createdBy: req.user._id
         });
+        
         await course.save();
+        
+        // После сохранения курса делаем редирект
         res.redirect(`/courses/${course._id}`);
-        let isInstructor = false;
-        if (req.user) {
-          isInstructor = course.createdBy._id.toString() === req.user._id.toString();
-        }
-    
-        res.render('courses/show', { 
-        course, 
-        modules,
-        isEnrolled,
-        isInstructor, // Важная переменная
-        user: req.user
-    });
     } catch (error) {
         console.error(error);
         req.flash('error', 'Ошибка при создании курса');
@@ -221,10 +212,15 @@ exports.deleteCourse = async (req, res) => {
         res.redirect(`/courses/${req.params.id}`);
     }
 };
+
+// Middleware для проверки владельца курса
 exports.ensureCourseOwner = async (req, res, next) => {
   try {
     const course = await Course.findById(req.params.id);
-    if (!course) return res.status(404).send('Курс не найден');
+    if (!course) {
+      req.flash('error', 'Курс не найден');
+      return res.redirect('/courses');
+    }
     
     if (req.user.role === 'admin') return next();
     if (course.createdBy.equals(req.user._id)) return next();
@@ -233,6 +229,7 @@ exports.ensureCourseOwner = async (req, res, next) => {
     res.redirect('/courses');
   } catch (error) {
     console.error(error);
+    req.flash('error', 'Ошибка сервера');
     res.redirect('/courses');
   }
 };
