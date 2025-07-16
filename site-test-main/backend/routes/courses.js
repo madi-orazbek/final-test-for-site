@@ -39,19 +39,19 @@ router.post('/:id/enroll',
 );
 
 // Редактирование курса
-//router.get('/:id/edit', 
-  //ensureAuthenticated,
-  //ensureTeacher, 
-  //ensureCourseOwner, 
-  //courseController.editCourseForm
-//);
+router.get('/:id/edit', 
+  ensureAuthenticated,
+  ensureTeacher, 
+  ensureCourseOwner, 
+  courseController.editCourseForm
+);
 
-//router.put('/:id',
-  //ensureAuthenticated,
-  //ensureTeacher, 
-  //ensureCourseOwner,
- // courseController.updateCourse
-//);
+router.put('/:id',
+  ensureAuthenticated,
+  ensureTeacher, 
+  ensureCourseOwner,
+  courseController.updateCourse
+);
 
 // Удаление курса
 router.delete('/:id',
