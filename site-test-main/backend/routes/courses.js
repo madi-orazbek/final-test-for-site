@@ -14,7 +14,7 @@ router.get('/new', ensureTeacher, courseController.newCourse);
 router.post('/', ensureTeacher, courseController.createCourse);
 
 // Детали курса
-router.get('/:id', getCourseDetails);
+router.get('/:id', courseController.getCourseDetails);
 router.get('/:id', ensureAuthenticated, courseController.getCourseDetails);
 
 // Запись на курс
