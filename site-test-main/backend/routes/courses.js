@@ -1,10 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const courseController = require('../controllers/courseController');
-const moduleController = require('../controllers/moduleController');
+const moduleController = require('../controllers/moduleController'); // Проверьте путь
 const lessonController = require('../controllers/lessonController');
 const assignmentController = require('../controllers/assignmentController');
 const { ensureAuthenticated, ensureTeacher, ensureCourseOwner } = require('../middleware/auth');
+
+// Диагностика
+console.log('[DEBUG] moduleController:', moduleController);
+console.log('[DEBUG] newModuleForm type:', typeof moduleController.newModuleForm);
 
 // Список всех курсов
 router.get('/', courseController.getAllCourses);
@@ -22,7 +26,7 @@ router.post('/',
   courseController.createCourse
 );
 
-// Детали курса (ИСПРАВЛЕНО: только один роут)
+// Детали курса
 router.get('/:id', 
   ensureAuthenticated, 
   courseController.getCourseDetails
@@ -57,12 +61,12 @@ router.delete('/:id',
   courseController.deleteCourse
 );
 
-// Модули курса
+// Модули курса (СТРОКА 38)
 router.get('/:id/modules/new', 
   ensureAuthenticated,
   ensureTeacher, 
   ensureCourseOwner, 
-  moduleController.newModuleForm
+  moduleController.newModuleForm // Убедитесь, что это функция
 );
 
 router.post('/:id/modules', 
