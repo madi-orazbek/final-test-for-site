@@ -23,5 +23,30 @@ module.exports = {
     if (req.user && req.user.role === 'admin') return next();
     req.flash('error', 'Доступно только администраторам');
     res.redirect('/');
+  },
+  ensureCourseOwner: async (req, res, next) => {
+    try {
+      // id курса может быть в req.params.id или req.params.courseId
+      const courseId = req.params.id || req.params.courseId; 
+      const course = await Course.findById(courseId);
+
+      if (!course) {
+        req.flash('error', 'Курс не найден');
+        return res.redirect('/courses');
+      }
+      
+      if (req.user.role === 'admin' || course.createdBy.equals(req.user._id)) {
+        return next();
+      }
+      
+      req.flash('error', 'У вас нет прав для выполнения этого действия');
+      res.redirect(`/courses/${courseId}`);
+
+    } catch (error) {
+      console.error(error);
+      req.flash('error', 'Ошибка сервера');
+      res.redirect('/courses');
+    }
   }
 };
+
