@@ -31,7 +31,7 @@ app.set('trust proxy', 1);
 
 // Настройка CORS
 const allowedOrigins = process.env.NODE_ENV === 'production'
-  ? ['https://site-test-y16r.onrender.com']
+  ? ['https://final-test-for-site.onrender.com']
   : ['http://localhost:3000'];
 
 app.use(cors({
