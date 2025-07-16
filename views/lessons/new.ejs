@@ -1,0 +1,38 @@
+<%- include('../partials/header', { title: 'Создание нового урока' }) %>
+
+<div class="container mt-4">
+  <h1>Создание урока для блока: <%= module.title %></h1>
+  
+  <form action="/lessons/courses/<%= module.course %>/modules/<%= module._id %>/lessons" method="POST">
+    <div class="mb-3">
+      <label class="form-label">Название урока</label>
+      <input type="text" name="title" class="form-control" required>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Порядковый номер</label>
+        <input type="number" name="order" class="form-control" min="0">
+      </div>
+      
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Ссылка на YouTube видео</label>
+        <input type="url" name="videoUrl" class="form-control" 
+               placeholder="https://www.youtube.com/watch?v=...">
+      </div>
+    </div>
+    
+    <div class="mb-3">
+      <label class="form-label">Содержание урока</label>
+      <textarea name="content" class="form-control" rows="10"></textarea>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Создать урок</button>
+    <a href="/courses/<%= module.course %>/modules/<%= module._id %>" 
+       class="btn btn-outline-secondary ms-2">
+      Отмена
+    </a>
+  </form>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,83 @@
+<%- include('../partials/header', { title: lesson.title }) %>
+
+<div class="container mt-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/courses">Курсы</a></li>
+      <li class="breadcrumb-item">
+        <a href="/courses/<%= lesson.module.course._id %>">
+          <%= lesson.module.course.title %>
+        </a>
+      </li>
+      <li class="breadcrumb-item">
+        <a href="/courses/<%= lesson.module.course._id %>/modules/<%= lesson.module._id %>">
+          <%= lesson.module.title %>
+        </a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Урок <%= lesson.order + 1 %>: <%= lesson.title %>
+      </li>
+    </ol>
+  </nav>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <h1><%= lesson.title %></h1>
+      
+      <% if (lesson.videoUrl) { %>
+        <div class="ratio ratio-16x9 mb-4">
+          <iframe 
+            src="https://www.youtube.com/embed/<%= extractYouTubeId(lesson.videoUrl) %>" 
+            title="YouTube video player" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+          </iframe>
+        </div>
+      <% } %>
+      
+      <div class="lesson-content">
+        <%- lesson.content || '<p>Контент урока скоро появится...</p>' %>
+      </div>
+      
+      <div class="mt-4 d-flex justify-content-between">
+        <a href="#" class="btn btn-outline-primary">Предыдущий урок</a>
+        <a href="#" class="btn btn-primary">Следующий урок</a>
+      </div>
+    </div>
+    
+    <div class="col-lg-4">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Блок уроков</h5>
+          <ul class="list-group list-group-flush">
+            <% lesson.module.lessons.forEach(l => { %>
+              <li class="list-group-item <%= l._id.equals(lesson._id) ? 'active' : '' %>">
+                <a href="/lessons/<%= l._id %>" 
+                  class="<%= l._id.equals(lesson._id) ? 'text-white' : '' %>">
+                  Урок <%= l.order + 1 %>: <%= l.title %>
+                </a>
+              </li>
+            <% }) %>
+          </ul>
+        </div>
+      </div>
+      
+      <% if (user.role === 'teacher' || user.role === 'admin') { %>
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Управление уроком</h5>
+            <div class="d-grid gap-2">
+              <a href="/lessons/<%= lesson._id %>/edit" class="btn btn-outline-primary">
+                Редактировать урок
+              </a>
+              <a href="#" class="btn btn-outline-danger">Удалить урок</a>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
