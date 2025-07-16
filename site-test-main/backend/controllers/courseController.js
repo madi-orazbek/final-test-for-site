@@ -213,23 +213,3 @@ exports.deleteCourse = async (req, res) => {
     }
 };
 
-// Middleware для проверки владельца курса
-exports.ensureCourseOwner = async (req, res, next) => {
-  try {
-    const course = await Course.findById(req.params.id);
-    if (!course) {
-      req.flash('error', 'Курс не найден');
-      return res.redirect('/courses');
-    }
-    
-    if (req.user.role === 'admin') return next();
-    if (course.createdBy.equals(req.user._id)) return next();
-    
-    req.flash('error', 'У вас нет прав для редактирования этого курса');
-    res.redirect('/courses');
-  } catch (error) {
-    console.error(error);
-    req.flash('error', 'Ошибка сервера');
-    res.redirect('/courses');
-  }
-};
